@@ -205,6 +205,41 @@ func TestVPCTool_createVPC(t *testing.T) {
 			},
 		},
 		{
+			name: "Successful create with subnet",
+			args: map[string]any{
+				"Name":   "private-net",
+				"Region": "nyc3",
+				"Subnet": "10.10.0.0/20",
+			},
+			mockSetup: func(m *MockVPCsService) {
+				m.EXPECT().
+					Create(gomock.Any(), &godo.VPCCreateRequest{
+						Name:       "private-net",
+						RegionSlug: "nyc3",
+						IPRange:    "10.10.0.0/20",
+					}).
+					Return(testVPC, nil, nil).
+					Times(1)
+			},
+		},
+		{
+			name: "Successful create with empty subnet",
+			args: map[string]any{
+				"Name":   "private-net",
+				"Region": "nyc3",
+				"Subnet": "",
+			},
+			mockSetup: func(m *MockVPCsService) {
+				m.EXPECT().
+					Create(gomock.Any(), &godo.VPCCreateRequest{
+						Name:       "private-net",
+						RegionSlug: "nyc3",
+					}).
+					Return(testVPC, nil, nil).
+					Times(1)
+			},
+		},
+		{
 			name: "API error",
 			args: map[string]any{
 				"Name":   "fail-vpc",
