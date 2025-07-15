@@ -556,23 +556,23 @@ func TestFirewallTool_addRules(t *testing.T) {
 			name: "Successful add inbound and outbound rules",
 			args: map[string]any{
 				"ID": "fw-123",
-				"InboundRules": []interface{}{
-					map[string]interface{}{
+				"InboundRules": []any{
+					map[string]any{
 						"Protocol":  "tcp",
 						"PortRange": "80",
-						"Sources":   []interface{}{"0.0.0.0/0", "10.0.0.0/8"},
+						"Sources":   []any{"0.0.0.0/0", "10.0.0.0/8"},
 					},
-					map[string]interface{}{
+					map[string]any{
 						"Protocol":  "tcp",
 						"PortRange": "443",
-						"Sources":   []interface{}{"0.0.0.0/0"},
+						"Sources":   []any{"0.0.0.0/0"},
 					},
 				},
-				"OutboundRules": []interface{}{
-					map[string]interface{}{
+				"OutboundRules": []any{
+					map[string]any{
 						"Protocol":     "udp",
 						"PortRange":    "53",
-						"Destinations": []interface{}{"8.8.8.8/32", "1.1.1.1/32"},
+						"Destinations": []any{"8.8.8.8/32", "1.1.1.1/32"},
 					},
 				},
 			},
@@ -588,11 +588,11 @@ func TestFirewallTool_addRules(t *testing.T) {
 			name: "Successful add inbound rules only",
 			args: map[string]any{
 				"ID": "fw-456",
-				"InboundRules": []interface{}{
-					map[string]interface{}{
+				"InboundRules": []any{
+					map[string]any{
 						"Protocol":  "tcp",
 						"PortRange": "22",
-						"Sources":   []interface{}{"192.168.1.0/24"},
+						"Sources":   []any{"192.168.1.0/24"},
 					},
 				},
 			},
@@ -616,11 +616,11 @@ func TestFirewallTool_addRules(t *testing.T) {
 			name: "API error",
 			args: map[string]any{
 				"ID": "fw-error",
-				"InboundRules": []interface{}{
-					map[string]interface{}{
+				"InboundRules": []any{
+					map[string]any{
 						"Protocol":  "tcp",
 						"PortRange": "80",
-						"Sources":   []interface{}{"0.0.0.0/0"},
+						"Sources":   []any{"0.0.0.0/0"},
 					},
 				},
 			},
@@ -671,18 +671,18 @@ func TestFirewallTool_removeRules(t *testing.T) {
 			name: "Successful remove inbound and outbound rules",
 			args: map[string]any{
 				"ID": "fw-123",
-				"InboundRules": []interface{}{
-					map[string]interface{}{
+				"InboundRules": []any{
+					map[string]any{
 						"Protocol":  "tcp",
 						"PortRange": "80",
-						"Sources":   []interface{}{"0.0.0.0/0"},
+						"Sources":   []any{"0.0.0.0/0"},
 					},
 				},
-				"OutboundRules": []interface{}{
-					map[string]interface{}{
+				"OutboundRules": []any{
+					map[string]any{
 						"Protocol":     "udp",
 						"PortRange":    "53",
-						"Destinations": []interface{}{"8.8.8.8/32"},
+						"Destinations": []any{"8.8.8.8/32"},
 					},
 				},
 			},
@@ -698,11 +698,11 @@ func TestFirewallTool_removeRules(t *testing.T) {
 			name: "Successful remove outbound rules only",
 			args: map[string]any{
 				"ID": "fw-456",
-				"OutboundRules": []interface{}{
-					map[string]interface{}{
+				"OutboundRules": []any{
+					map[string]any{
 						"Protocol":     "tcp",
 						"PortRange":    "443",
-						"Destinations": []interface{}{"192.168.1.0/24", "10.0.0.0/8"},
+						"Destinations": []any{"192.168.1.0/24", "10.0.0.0/8"},
 					},
 				},
 			},
@@ -726,11 +726,11 @@ func TestFirewallTool_removeRules(t *testing.T) {
 			name: "API error",
 			args: map[string]any{
 				"ID": "fw-error",
-				"InboundRules": []interface{}{
-					map[string]interface{}{
+				"InboundRules": []any{
+					map[string]any{
 						"Protocol":  "tcp",
 						"PortRange": "22",
-						"Sources":   []interface{}{"192.168.1.0/24"},
+						"Sources":   []any{"192.168.1.0/24"},
 					},
 				},
 			},
