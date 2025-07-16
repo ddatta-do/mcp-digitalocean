@@ -53,11 +53,15 @@ func (c *CertificateTool) createCustomCertificate(ctx context.Context, req mcp.C
 // createLetsEncryptCertificate creates a new LetsEncrypt certificate
 func (c *CertificateTool) createLetsEncryptCertificate(ctx context.Context, req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	name := req.GetArguments()["Name"].(string)
-	dnsNames := req.GetArguments()["DnsNames"].([]string)
+	dnsNames := req.GetArguments()["DnsNames"].([]any)
+	dnsNamesStr := make([]string, len(dnsNames))
+	for i, dnsName := range dnsNames {
+		dnsNamesStr[i] = dnsName.(string)
+	}
 
 	certRequest := &godo.CertificateRequest{
 		Name:     name,
-		DNSNames: dnsNames,
+		DNSNames: dnsNamesStr,
 		Type:     "lets_encrypt",
 	}
 
@@ -159,7 +163,10 @@ func (c *CertificateTool) Tools() []server.ServerTool {
 			Tool: mcp.NewTool("digitalocean-lets-encrypt-certificate-create",
 				mcp.WithDescription("Create a new let's encrypt certificate"),
 				mcp.WithString("Name", mcp.Required(), mcp.Description("Name of the certificate")),
-				mcp.WithArray("DnsNames", mcp.Required(), mcp.Description("DNS names of the certificate")),
+				mcp.WithArray("DnsNames", mcp.Required(), mcp.Description("DNS names of the certificate"), mcp.Items(map[string]any{
+					"type":        "string",
+					"description": "DNS name for the certificate, including wildcard domains",
+				})),
 			),
 		},
 		{
